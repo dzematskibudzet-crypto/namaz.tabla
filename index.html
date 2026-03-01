@@ -1,156 +1,187 @@
 <!DOCTYPE html>
-<html>
+<html lang="bs">
 <head>
 <meta charset="UTF-8">
-<title>Namaska Tabla</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Džemat Pobrdje</title>
+
+<!-- Google Fontovi -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+body{
+    margin:0;
+    background:#111;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:'Montserrat', sans-serif;
 }
 
-body {
-    width: 1920px;
-    height: 1080px;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #b31272, #ff0080);
-    color: white;
-    position: relative;
-    overflow: hidden;
+.screen{
+    width:1080px;
+    height:1920px;
+    background:#0097b2;
+    display:flex;
+    flex-direction:column;
+    color:white;
+    overflow:hidden;
 }
 
-/* Ornament pozadina */
-body::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
-    background-size: 40px 40px;
-    opacity: 0.3;
+/* VRH */
+.header{
+    text-align:center;
+    padding:25px;
+    background:#0097b2;
+    position:relative;
 }
 
-/* Gornja traka */
-.header {
-    width: 100%;
-    height: 120px;
-    background: rgba(0,0,0,0.2);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 80px;
-    font-size: 50px;
-    font-weight: bold;
+.header h1{
+    margin:0;
+    font-size:40px;
+    font-weight:600;
 }
 
-/* Lista vremena */
-.prayers {
-    margin-top: 150px;
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
+.header h2{
+    margin:10px 0 0 0;
+    font-size:70px;
+    font-family:'Cinzel', serif;
+    letter-spacing:3px;
 }
 
-.prayer-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 70px;
-    padding: 20px 0;
-    border-bottom: 3px solid rgba(255,255,255,0.4);
+/* Sat */
+.clock{
+    position:absolute;
+    right:40px;
+    top:30px;
+    font-size:50px;
+    font-weight:700;
 }
 
-/* Donja traka */
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 120px;
-    background: white;
-    color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 50px;
-    font-weight: bold;
+/* TRAKE */
+.bar{
+    background:#e7d7b9;
+    color:#333;
+    text-align:center;
+    padding:18px;
+    font-size:32px;
+    font-weight:600;
+    border-top:4px solid #cdbfa4;
+    border-bottom:4px solid #cdbfa4;
+}
+
+/* NAMAZ VREMENA */
+.prayers{
+    flex:1.4;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:40px 120px;
+}
+
+.prayer-row{
+    display:flex;
+    justify-content:space-between;
+    padding:25px 0;
+    font-size:60px;
+    border-bottom:3px solid rgba(255,255,255,0.5);
+}
+
+/* SLEDEĆI NAMAZ */
+.next{
+    font-size:36px;
+}
+
+/* PLAKATI */
+.posters{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#007c92;
+}
+
+.poster-box{
+    width:85%;
+    aspect-ratio:16/9;
+    background:linear-gradient(135deg,#ffffff33,#00000033);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:50px;
+    font-weight:600;
+    border-radius:20px;
+}
+
+/* DONJA TRAKA */
+.ticker{
+    background:#e7d7b9;
+    color:#222;
+    font-size:32px;
+    padding:15px 0;
+    overflow:hidden;
+    white-space:nowrap;
+}
+
+.ticker span{
+    display:inline-block;
+    padding-left:100%;
+    animation:scroll 20s linear infinite;
+}
+
+@keyframes scroll{
+    from{transform:translateX(0);}
+    to{transform:translateX(-100%);}
 }
 </style>
 </head>
 <body>
 
-<div class="header">
-    <div>Kurd Čelebi džamija</div>
-    <div id="clock">00:00:00</div>
-</div>
+<div class="screen">
 
-<div class="prayers">
-    <div class="prayer-row"><span>Sabah</span><span>05:56</span></div>
-    <div class="prayer-row"><span>Podne</span><span>11:52</span></div>
-    <div class="prayer-row"><span>Ikindija</span><span>14:50</span></div>
-    <div class="prayer-row"><span>Akšam</span><span>17:27</span></div>
-    <div class="prayer-row"><span>Jacija</span><span>18:46</span></div>
-</div>
+    <div class="header">
+        <div class="clock" id="clock"></div>
+        <h1>Islamska zajednica u Srbiji</h1>
+        <h2>Džemat Pobrdje</h2>
+    </div>
 
-<div class="footer" id="nextPrayerLine">
-Sljedeći namaz: -- | Počinje za: 00:00:00
+    <div class="bar">
+        Četvrtak, 26. februar 2026 / 8. ramazan 1447
+    </div>
+
+    <div class="prayers">
+        <div class="prayer-row"><span>SABAH</span><span>05:56</span></div>
+        <div class="prayer-row"><span>IZL. SUNCA</span><span>06:16</span></div>
+        <div class="prayer-row"><span>PODNE</span><span>11:52</span></div>
+        <div class="prayer-row"><span>IKINDIJA</span><span>14:50</span></div>
+        <div class="prayer-row"><span>AKŠAM</span><span>17:27</span></div>
+        <div class="prayer-row"><span>JACIJA</span><span>18:46</span></div>
+    </div>
+
+    <div class="bar next">
+        Sljedeći namaz: Sabah počinje za <span id="countdown">04:40:13</span>
+    </div>
+
+    <div class="posters">
+        <div class="poster-box">
+            OVDJE IDE PLAKAT 16:9
+        </div>
+    </div>
+
+    <div class="ticker">
+        <span>Dobrodošli u Džemat Pobrdje • Hutba svakog petka u 12:00 • Mekteb subotom u 10:00 • </span>
+    </div>
+
 </div>
 
 <script>
-const prayers = [
-    { name: "Sabah", time: "05:56" },
-    { name: "Podne", time: "11:52" },
-    { name: "Ikindija", time: "14:50" },
-    { name: "Akšam", time: "17:27" },
-    { name: "Jacija", time: "18:46" }
-];
-
-function updateClock() {
+function updateClock(){
     const now = new Date();
-    const timeString = now.toLocaleTimeString();
-    document.getElementById("clock").innerHTML = timeString;
+    const time = now.toLocaleTimeString('bs-BA',{hour12:false});
+    document.getElementById("clock").innerText = time;
 }
-
-function getNextPrayer() {
-    const now = new Date();
-    for (let prayer of prayers) {
-        const [hour, minute] = prayer.time.split(":");
-        const prayerTime = new Date();
-        prayerTime.setHours(hour, minute, 0);
-
-        if (prayerTime > now) {
-            return { ...prayer, date: prayerTime };
-        }
-    }
-
-    const [hour, minute] = prayers[0].time.split(":");
-    const nextDay = new Date();
-    nextDay.setDate(nextDay.getDate() + 1);
-    nextDay.setHours(hour, minute, 0);
-
-    return { ...prayers[0], date: nextDay };
-}
-
-function updateCountdown() {
-    const now = new Date();
-    const nextPrayer = getNextPrayer();
-    const diff = nextPrayer.date - now;
-
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
-
-    document.getElementById("nextPrayerLine").innerHTML =
-        "Sljedeći namaz: " + nextPrayer.name +
-        " | Počinje za: " +
-        String(hours).padStart(2, '0') + ":" +
-        String(minutes).padStart(2, '0') + ":" +
-        String(seconds).padStart(2, '0');
-}
-
-setInterval(updateClock, 1000);
-setInterval(updateCountdown, 1000);
+setInterval(updateClock,1000);
 updateClock();
-updateCountdown();
 </script>
 
 </body>
