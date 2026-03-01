@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Namaska Tabla</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 1920px;
+    height: 1080px;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #b31272, #ff0080);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Ornament pozadina */
+body::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.3;
+}
+
+/* Gornja traka */
+.header {
+    width: 100%;
+    height: 120px;
+    background: rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 80px;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+/* Lista vremena */
+.prayers {
+    margin-top: 150px;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.prayer-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 70px;
+    padding: 20px 0;
+    border-bottom: 3px solid rgba(255,255,255,0.4);
+}
+
+/* Donja traka */
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 120px;
+    background: white;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div>Kurd Čelebi džamija</div>
+    <div id="clock">00:00:00</div>
+</div>
+
+<div class="prayers">
+    <div class="prayer-row"><span>Sabah</span><span>05:56</span></div>
+    <div class="prayer-row"><span>Podne</span><span>11:52</span></div>
+    <div class="prayer-row"><span>Ikindija</span><span>14:50</span></div>
+    <div class="prayer-row"><span>Akšam</span><span>17:27</span></div>
+    <div class="prayer-row"><span>Jacija</span><span>18:46</span></div>
+</div>
+
+<div class="footer" id="nextPrayerLine">
+Sljedeći namaz: -- | Počinje za: 00:00:00
+</div>
+
+<script>
+const prayers = [
+    { name: "Sabah", time: "05:56" },
+    { name: "Podne", time: "11:52" },
+    { name: "Ikindija", time: "14:50" },
+    { name: "Akšam", time: "17:27" },
+    { name: "Jacija", time: "18:46" }
+];
+
+function updateClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString();
+    document.getElementById("clock").innerHTML = timeString;
+}
+
+function getNextPrayer() {
+    const now = new Date();
+    for (let prayer of prayers) {
+        const [hour, minute] = prayer.time.split(":");
+        const prayerTime = new Date();
+        prayerTime.setHours(hour, minute, 0);
+
+        if (prayerTime > now) {
+            return { ...prayer, date: prayerTime };
+        }
+    }
+
+    const [hour, minute] = prayers[0].time.split(":");
+    const nextDay = new Date();
+    nextDay.setDate(nextDay.getDate() + 1);
+    nextDay.setHours(hour, minute, 0);
+
+    return { ...prayers[0], date: nextDay };
+}
+
+function updateCountdown() {
+    const now = new Date();
+    const nextPrayer = getNextPrayer();
+    const diff = nextPrayer.date - now;
+
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("nextPrayerLine").innerHTML =
+        "Sljedeći namaz: " + nextPrayer.name +
+        " | Počinje za: " +
+        String(hours).padStart(2, '0') + ":" +
+        String(minutes).padStart(2, '0') + ":" +
+        String(seconds).padStart(2, '0');
+}
+
+setInterval(updateClock, 1000);
+setInterval(updateCountdown, 1000);
+updateClock();
+updateCountdown();
+</script>
+
+</body>
+</html>
